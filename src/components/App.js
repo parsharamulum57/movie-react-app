@@ -4,6 +4,7 @@ import { data } from "../data";
 import Navbar from "./Navbar";
 import MovieCard from "./MovieCard";
 import { addMovie, changeShowFavourites } from "../actions";
+import { StoreContext } from "..";
 
 class App extends React.Component {
   componentDidMount() {
@@ -84,4 +85,17 @@ class App extends React.Component {
   }
 }
 
-export default App;
+class AppWrapper extends React.Component {
+  render() {
+    console.log("In AppWrapper");
+    return (
+      <StoreContext.Consumer>
+        {(store) => {
+          return <App store={store} />;
+        }}
+      </StoreContext.Consumer>
+    );
+  }
+}
+
+export default AppWrapper;

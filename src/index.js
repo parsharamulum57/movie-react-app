@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/App";
@@ -43,14 +43,29 @@ const thunk =
     next(action);
   };*/
 
+class Provider extends React.Component {
+  render() {
+    console.log("In Provider", this.props.children);
+    return (
+      <StoreContext.Provider value={this.props.store}>
+        {this.props.children}
+      </StoreContext.Provider>
+    );
+  }
+}
+
 const store = createStore(combineReducers, applyMiddleware(logger, thunk));
 
 console.log("Store ", store);
 console.log("STATE ", store.getState());
 
+export const StoreContext = createContext();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <App store={store} />
+  <Provider store={store}>
+    <App />
+  </Provider>
   // </React.StrictMode>
 );
