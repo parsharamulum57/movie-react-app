@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/App";
+import { Provider } from "react-redux";
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import combineReducers from "./reducers";
 import thunk from "redux-thunk";
@@ -43,7 +44,7 @@ const thunk =
     next(action);
   };*/
 
-class Provider extends React.Component {
+/*class Provider extends React.Component {
   render() {
     console.log("In Provider", this.props.children);
     return (
@@ -52,9 +53,9 @@ class Provider extends React.Component {
       </StoreContext.Provider>
     );
   }
-}
+}*/
 
-export function connect(callback) {
+/*export function connect(callback) {
   return function (Component) {
     class ConnectComponent extends React.Component {
       constructor(props) {
@@ -86,7 +87,7 @@ export function connect(callback) {
     }
     return ConnectComponentWrapper;
   };
-}
+}*/
 
 const store = createStore(combineReducers, applyMiddleware(logger, thunk));
 
