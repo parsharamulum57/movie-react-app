@@ -54,6 +54,40 @@ class Provider extends React.Component {
   }
 }
 
+export function connect(callback) {
+  return function (Component) {
+    class ConnectComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        this.props.store.subscribe(() => {
+          return this.forceUpdate();
+        });
+      }
+
+      render() {
+        const state = this.props.store.getState();
+        const dataToBePassedAsProps = callback(state);
+        return (
+          <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
+        );
+      }
+    }
+
+    class ConnectComponentWrapper extends React.Component {
+      render() {
+        return (
+          <StoreContext.Consumer>
+            {(store) => {
+              return <ConnectComponent store={store} />;
+            }}
+          </StoreContext.Consumer>
+        );
+      }
+    }
+    return ConnectComponentWrapper;
+  };
+}
+
 const store = createStore(combineReducers, applyMiddleware(logger, thunk));
 
 console.log("Store ", store);
